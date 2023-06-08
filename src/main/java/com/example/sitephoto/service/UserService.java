@@ -26,10 +26,11 @@ public interface UserService {
     void addPhoto(User user, Photo photo);
     void deletePhoto(User user, Photo photo);
     public void deleteAllPhotos(User user);
-    void addUser(String name, String email, String password, Boolean admin, ArrayList<Photo> photoList);
+    void addUser(String name, String email, String password, Boolean admin, ArrayList<Photo> photoList,Boolean isloggedin);
     void deleteFirstByIdIfUserAdmin(User userAdmin, Long id);
     void updateName(Long id, User newUser);
     public Boolean login(String email, String password);
+    public Boolean logoff(String email);
     void updateEmail(Long id, User newUser);
     void updatePassword(Long id, User newUser);
     void updateAdmin(Long id);//toggle

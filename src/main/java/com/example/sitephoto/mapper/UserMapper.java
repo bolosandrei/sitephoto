@@ -1,6 +1,8 @@
 package com.example.sitephoto.mapper;
 
+import com.example.sitephoto.DTO.PhotoDTO;
 import com.example.sitephoto.DTO.UserDTO;
+import com.example.sitephoto.model.Photo;
 import com.example.sitephoto.model.User;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +15,18 @@ public class UserMapper {
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
         userDTO.setAdmin(user.getAdmin());
-//        userDTO.setPhotoList(user.getPhotoList());
-        //userDTO.setOrdersList(user.getOrdersList());
+        userDTO.setIsloggedin(user.getIsloggedin());
         return userDTO;
+    }
+    public static User mapDtoToModel(UserDTO userDTO) {
+        User user = new User();
+        user.setId(userDTO.getId());
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setPhotoList(null);
+        user.setAdmin(userDTO.getAdmin());
+        user.setIsloggedin(userDTO.getIsloggedin());
+        return user;
     }
 }

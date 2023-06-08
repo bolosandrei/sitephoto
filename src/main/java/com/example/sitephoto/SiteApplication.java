@@ -36,19 +36,14 @@ public class SiteApplication {
     @Bean
     CommandLineRunner init(PhotoRepository photoRepository, UserRepository userRepository, PhotoService photoService, UserService userService) {
         return (args) -> {
-//            PhotoServiceImpl photoService = new PhotoServiceImpl(photoRepository);
-//            UserServiceImpl userService = new UserServiceImpl(userRepository);
-//            User user1 = new User("User1", "Email1", "pass1", Boolean.TRUE,new LinkedList<Photo>());
-//            Photo photo1 = new Photo("Photo1","B:\\Poze\\Poze Aparat edit\\Lightroom exports\\BOL_4929-16x9.jpg","First Photo",userService.findFirstByName("User1"));
-//            photoRepository.save(photo1);
 
-//            Field field = User.class.getDeclaredField("photoList");
-//            field.setAccessible(true);
+            userService.addUser("admin", "admin@admin.com", "admin", Boolean.TRUE,new ArrayList<>(),Boolean.FALSE);
+            userService.addUser("User1", "Email1@email1.com", "1", Boolean.TRUE,new ArrayList<>(),Boolean.FALSE);
+            userService.addUser("User2", "Email2@email2.com", "2", Boolean.FALSE,new ArrayList<>(),Boolean.FALSE);
 
-            userService.addUser("User1", "Email1", "pass1", Boolean.TRUE,new ArrayList<>());
-            userService.addUser("User2", "Email2", "pass2", Boolean.FALSE,new ArrayList<>());
             UserDTO user1 = userService.findFirstByName("User1");
             UserDTO user2 = userService.findFirstByName("User2");
+            UserDTO admin = userService.findFirstByName("admin");
             photoService.addPhoto(user1.getId(), "Photo1","/assets/BOL_4929-16x9.jpg","First Photo",null);
             photoService.addPhoto(user2.getId(), "Photo2","/assets/BOL_7158.jpg","Second Photo",null);
             photoService.addPhoto(user1.getId(), "Photo3","/assets/BOL_8065-2.jpg","Third Photo",null);

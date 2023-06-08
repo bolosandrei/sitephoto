@@ -19,5 +19,6 @@ public class UserDTO {
     private String email;
     private String password;
     private Boolean admin;
+    private Boolean isloggedin;
 //    private List<Photo> photoList;
 }

@@ -35,6 +35,7 @@ public class UserServiceTest {
     private final String password = "pass1";
     private final Boolean admin = Boolean.TRUE;
     private ArrayList<Photo> photoList;
+    private final Boolean isloggedin = Boolean.FALSE;
 
     private final Long idU2 = 2L;
     private final String nameU2 = "User2";
@@ -42,6 +43,7 @@ public class UserServiceTest {
     private final String password2 = "pass2";
     private final Boolean admin2 = Boolean.FALSE;
     private ArrayList<Photo> photoList2;
+    private final Boolean isloggedin2 = Boolean.FALSE;
 
     private final Long unexistentIdU = 31L;
     private final String unexistentNameU = "User321";
@@ -49,6 +51,7 @@ public class UserServiceTest {
     private final String unexistentPassword = "pass24";
     private final Boolean unexistentAdmin = Boolean.FALSE;
     private ArrayList<Photo> unexistentPhotoList;
+    private final Boolean unexistentIsloggedin = Boolean.FALSE;
 
 
     private UserService userService;
@@ -67,8 +70,8 @@ public class UserServiceTest {
     void init(){
         initMocks(this);
 
-        User user1 = new User(idU, nameU, email, password,admin,photoList);
-        User user2 = new User(idU2, nameU2, email2, password2,admin2,photoList2);
+        User user1 = new User(idU, nameU, email, password,admin,photoList,isloggedin);
+        User user2 = new User(idU2, nameU2, email2, password2,admin2,photoList2,isloggedin2);
         Photo photo = new Photo(idP,nameP,path,description,user1,null);
         when(this.userRepository.findFirstByName(nameU)).thenReturn(user1);
 //        when(this.userService.deleteFirstByIdIfUserAdmin(user1,this.idU2)).thenReturn(user1);
@@ -83,7 +86,7 @@ public class UserServiceTest {
     @Test
     void testAddUser(){// CREATE
         userService = new UserServiceImpl(userRepository,userMapper,photoRepository,photoMapper);
-        userService.addUser(nameU, email, password,admin,photoList);
+        userService.addUser(nameU, email, password,admin,photoList,isloggedin);
         UserDTO user1= userService.findFirstByName(nameU);
         assertNotNull(user1);
         assertEquals(nameU,user1.getName());
@@ -92,7 +95,7 @@ public class UserServiceTest {
     @Test
     void givenExistingNameU_whenFindByName_thenFindOne() {// READ
         userService = new UserServiceImpl(userRepository,userMapper,photoRepository,photoMapper);
-        userService.addUser(nameU, email, password,admin,photoList);
+        userService.addUser(nameU, email, password,admin,photoList,isloggedin);
         UserDTO user1= userService.findFirstByName(nameU);
         assertNotNull(user1);
         assertEquals(nameU, user1.getName());
@@ -107,7 +110,7 @@ public class UserServiceTest {
     @Test
     void givenExistingEmail_whenFindByEmail_thenFindOne(){// READ
         userService = new UserServiceImpl(userRepository,userMapper,photoRepository,photoMapper);
-        userService.addUser(nameU, email, password,admin,photoList);
+        userService.addUser(nameU, email, password,admin,photoList,isloggedin);
         UserDTO user1= userService.findFirstByEmail(email);
         assertNotNull(user1);
         assertEquals(email, user1.getEmail());
@@ -123,13 +126,13 @@ public class UserServiceTest {
     @Test
     void testUpdateName(){// UPDATE
         userService = new UserServiceImpl(userRepository,userMapper,photoRepository,photoMapper);
-        userService.addUser(nameU, email, password,admin,photoList);
+        userService.addUser(nameU, email, password,admin,photoList,isloggedin);
         UserDTO user1= userService.findFirstByName(nameU);
         assertNotNull(user1);
-        userService.addUser(nameU2, email2, password2,admin2,photoList2);
+        userService.addUser(nameU2, email2, password2,admin2,photoList2,isloggedin);
         UserDTO user2= userService.findFirstByName(nameU2);
         assertNotNull(user2);
-        User user = new User(idU2, nameU2, email2, password2,admin2,photoList2);
+        User user = new User(idU2, nameU2, email2, password2,admin2,photoList2,isloggedin);
         userService.updateName(user1.getId(), user);
 //        user1.setName(user2.getName());
         assertEquals(user1.getName(), user2.getName());
@@ -138,10 +141,10 @@ public class UserServiceTest {
     @Test
     void testDeleteUserIfAdmin(){// DELETE
         userService = new UserServiceImpl(userRepository,userMapper,photoRepository,photoMapper);
-        userService.addUser(nameU, email, password,admin,photoList);
+        userService.addUser(nameU, email, password,admin,photoList,isloggedin);
         UserDTO user1= userService.findFirstByName(nameU);
         assertNotNull(user1);// acest user are setat Admin pe TRUE
-        userService.addUser(nameU2, email2, password2,admin2,photoList2);
+        userService.addUser(nameU2, email2, password2,admin2,photoList2,isloggedin2);
         UserDTO user2= userService.findFirstByName(nameU2);
         assertNotNull(user2);// acest user are setat Admin pe FALSE
 //        userService.deleteFirstByIdIfUserAdmin(user1, user2.getId());

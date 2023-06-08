@@ -38,17 +38,19 @@ public class PhotoserviceTest {
     private final String password = "pass1";
     private final Boolean admin = Boolean.TRUE;
     private ArrayList<Photo> photoList;
+    private final Boolean isloggedin = Boolean.FALSE;
 
     private final Long unexistentIdU = 31L;
     private final String unexistentNameU = "User321";
     private final String unexistentEmail = "Email13";
     private final String unexistentPassword = "pass24";
     private final Boolean unexistentAdmin = Boolean.FALSE;
+    private final Boolean unexistentIsloggedin = Boolean.FALSE;
     private ArrayList<Photo> unexistentPhotoList;
 
-    UserDTO user1DTO = new UserDTO(idU, nameU, email, password,admin);;
-    User fakeUser = new User(unexistentIdU, unexistentNameU, unexistentEmail, unexistentPassword,unexistentAdmin,unexistentPhotoList);
-    UserDTO fakeUserDTO = new UserDTO(unexistentIdU, unexistentNameU, unexistentEmail, unexistentPassword,unexistentAdmin);
+    UserDTO user1DTO = new UserDTO(idU, nameU, email, password,admin,isloggedin);;
+    User fakeUser = new User(unexistentIdU, unexistentNameU, unexistentEmail, unexistentPassword,unexistentAdmin,unexistentPhotoList,unexistentIsloggedin);
+    UserDTO fakeUserDTO = new UserDTO(unexistentIdU, unexistentNameU, unexistentEmail, unexistentPassword,unexistentAdmin,unexistentIsloggedin);
 
     private UserService userService;
     private PhotoService photoService;
@@ -66,7 +68,7 @@ public class PhotoserviceTest {
     void init(){
         initMocks(this);
 
-        User user = new User(idU, nameU, email, password,admin,photoList);
+        User user = new User(idU, nameU, email, password,admin,photoList,isloggedin);
         Photo photo = new Photo(idP,nameP,path,description,user,null);
         when(this.userRepository.findFirstByName(nameU)).thenReturn(user);
         when(this.userRepository.findFirstById(idU)).thenReturn(user);
@@ -78,8 +80,8 @@ public class PhotoserviceTest {
     void givenExistingUser_whenFindByUser_thenFindOne()
     {
         userService = new UserServiceImpl(userRepository,userMapper,photoRepository,photoMapper);
-        userService.addUser(nameU, email, password,admin,photoList);
-        User user1 = new User(idU, nameU, email, password,admin,photoList);
+        userService.addUser(nameU, email, password,admin,photoList,isloggedin);
+        User user1 = new User(idU, nameU, email, password,admin,photoList,isloggedin);
         photoService = new PhotoServiceImpl(photoRepository,photoMapper,userRepository);
         photoService.addPhoto(user1.getId(), nameP, path, description,null);
         PhotoDTO photo= photoService.findFirstByUser(user1);
@@ -98,8 +100,8 @@ public class PhotoserviceTest {
     void givenExistingName_whenFindByName_thenFindOne()
     {
         userService = new UserServiceImpl(userRepository,userMapper,photoRepository,photoMapper);
-        userService.addUser(nameU, email, password,admin,photoList);
-        User user1 = new User(idU, nameU, email, password,admin,photoList);
+        userService.addUser(nameU, email, password,admin,photoList,isloggedin);
+        User user1 = new User(idU, nameU, email, password,admin,photoList,isloggedin);
         photoService = new PhotoServiceImpl(photoRepository,photoMapper,userRepository);
         photoService.addPhoto(user1.getId(), nameP, path, description,null);
         PhotoDTO photo= photoService.findFirstByUser(user1);//photoRepository.findbyname
